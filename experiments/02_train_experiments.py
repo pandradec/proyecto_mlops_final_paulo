@@ -70,6 +70,21 @@ def main():
         for metric_name, value in metrics.items():
             print(f"  {metric_name}: {value:.4f}")
         print("-" * 30)
+        
+    # --------------------------------------------------
+    # Save results to CSV
+    # --------------------------------------------------
+    print("\nSaving experiment results...")
+
+    results_df = pd.DataFrame(results).T
+    results_df.reset_index(inplace=True)
+    results_df.rename(columns={"index": "model"}, inplace=True)
+
+    os.makedirs("experiments", exist_ok=True)
+    results_df.to_csv("experiments/results.csv", index=False)
+
+    print("Results saved in experiments/results.csv")
+
 
     # --------------------------------------------------
     # Select best model (based on ROC-AUC)
